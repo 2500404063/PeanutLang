@@ -16,11 +16,11 @@ using byte = unsigned char;
 
 #ifdef X64
 using PeanutInt = size_t;
-#define PI_MAX ULLONG_MAX
+#define PI_MAX SIZE_MAX
 #else
 using PeanutInt = size_t;
-#define PI_MAX UINT32_MAX
-#endif // _W64
+#define PI_MAX SIZE_MAX
+#endif // X64
 
 extern std::vector<std::string> AssemblyCodes;
 extern std::vector<byte> ByteCodes;

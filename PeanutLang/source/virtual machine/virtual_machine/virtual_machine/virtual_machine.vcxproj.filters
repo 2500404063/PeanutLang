@@ -23,13 +23,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="machine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="start.cpp">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="definition.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="machine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
