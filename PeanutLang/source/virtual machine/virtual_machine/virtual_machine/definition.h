@@ -2,14 +2,15 @@
 #include <string>
 #include <vector>
 
-#pragma region CommoneDefinition
-typedef unsigned char byte;
+using byte = unsigned char;
+
 #ifdef X64
-typedef unsigned long long PeanutInt;
+using PeanutInt = size_t;
+#define PI_MAX ULLONG_MAX
 #else
-typedef unsigned int PeanutInt;
+using PeanutInt = size_t;
+#define PI_MAX UINT32_MAX
 #endif // _W64
-#pragma endregion
 
 #pragma region MachineDefiniton
 struct Core
@@ -35,12 +36,12 @@ struct Core
 extern std::vector<byte> ByteCodes;
 
 //后面注释跟着的是参数,空白表示无参数,参数风格：类型+名称
-#define NUL 00//
-#define PUSH_AX 01//
-#define PUSH_BX 02//
-#define PUSH_CX 03//
-#define PUSH_ANY 04//PeanutInt address
-#define POP_AX 01//
-#define POP_BX 02//
-#define POP_CX 03//
-#define POP_ANY 04//PeanutInt address
+#define NUL 0x00//NULL
+#define PUSH_AX 0x01//NULL
+#define PUSH_BX 0x02//NULL
+#define PUSH_CX 0x03//NULL
+#define PUSH_ANY 0x04//PeanutInt address
+#define POP_AX 0x05//NULL
+#define POP_BX 0x06//NULL
+#define POP_CX 0x07//NULL
+#define POP_ANY 0x08//PeanutInt address

@@ -15,10 +15,10 @@
 using byte = unsigned char;
 
 #ifdef X64
-typedef unsigned long long PeanutInt;
+using PeanutInt = size_t;
 #define PI_MAX ULLONG_MAX
 #else
-using PeanutInt = unsigned int;
+using PeanutInt = size_t;
 #define PI_MAX UINT32_MAX
 #endif // _W64
 

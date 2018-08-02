@@ -66,3 +66,13 @@ inline std::string GetParameter(std::string code, PeanutInt _off) {
 inline std::string GetOnlyString(std::string str) {
 	return str.substr(1, str.size() - 2);
 }
+
+inline PeanutInt GetPos_DS() {
+	if (DS.size() == 0) {
+		return 0;
+	}
+	else {
+		return DS.size() - 1;
+	}
+
+}

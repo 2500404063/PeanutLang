@@ -1,8 +1,9 @@
 #DS:;
-#DB:STR1,'Hello',00001234;
+#DB:STR1,Hello;
 #CS:;
 #PUSH:AX;
 #PUSH:BX;
 #PUSH:CX;
+#PUSH:STR1;
 #PUSH:00001234;
 #ES:;
