@@ -1,0 +1,8 @@
+#DS:;
+#DB:STR1,'Hello',00001234;
+#CS:;
+#PUSH:AX;
+#PUSH:BX;
+#PUSH:CX;
+#PUSH:00001234;
+#ES:;
