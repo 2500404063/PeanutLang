@@ -45,3 +45,4 @@ extern PeanutInt ES_Deep_Pos;//º¯Êý´¢´æÇø
 #define POP_BX		0x06//NULL
 #define POP_CX		0x07//NULL
 #define POP_ANY		0x08//PeanutInt address
+#define NOP			0x90//NULL

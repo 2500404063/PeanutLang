@@ -9,4 +9,6 @@
 #PUSH:STR2;
 #PUSH:00001234;
 #PUSH:0231;
+#REM:Test 'NOP';
+#NOP:;
 #ES:;

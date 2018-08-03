@@ -15,8 +15,10 @@ void StartComply() {
 	AppendBin("This a peanut file.", ByteCodes);
 	for (auto & AssemblyCode : AssemblyCodes) {
 		std::string command = AssemblyCode.substr(0, AssemblyCode.find(':', 0));
-		if (command == "DS")
-		{
+		if (command == "REM") {
+			continue;
+		}
+		else if (command == "DS") {
 			CurrentArea = 0;
 		}
 		else if (command == "CS") {
@@ -50,12 +52,11 @@ void StartComply() {
 				else if (arg == "CX") {
 					AppendBin(PUSH_CX, CS);
 				}
-				//#PUSH:%ADDR32%	[32bit]
-				//#PUSH:%ADDR64%	[64bit]
+				//#PUSH:%OFFSET 32%	[32bit]
+				//#PUSH:%OFFSET 64%	[64bit]
 				else {
 					AppendBin(PUSH_ANY, CS);
 					if (IsNumberHex(arg)) {
-						arg = SetNumberAuto(arg);
 						AppendBinInt(ToNumberFromHex(arg), CS);
 					}
 					else {
@@ -66,6 +67,39 @@ void StartComply() {
 						}
 					}
 				}
+			}
+			else if (command == "POP") {
+				std::string arg = GetParameter(AssemblyCode, 1);
+				//#POP:AX;
+				if (arg == "AX") {
+					AppendBin(POP_AX, CS);
+				}
+				//#POP:BX;
+				else if (arg == "BX") {
+					AppendBin(POP_BX, CS);
+				}
+				//POP:CX;
+				else if (arg == "CX") {
+					AppendBin(POP_CX, CS);
+				}
+				//#POP:%OFFSET 32%	[32bit]
+				//#POP:%OFFSET 64%	[64bit]
+				else {
+					AppendBin(POP_ANY, CS);
+					if (IsNumberHex(arg)) {
+						AppendBinInt(ToNumberFromHex(arg), CS);
+					}
+					else {
+						auto it = std::find(ConstName.begin(), ConstName.end(), arg);
+						if (it != ConstName.end()) {
+							PeanutInt index = std::distance(ConstName.begin(), it);
+							AppendBinInt(ConstPos[index], CS);
+						}
+					}
+				}
+			}
+			else if (command == "NOP") {
+				AppendBin(NOP, CS);
 			}
 		}
 	}
