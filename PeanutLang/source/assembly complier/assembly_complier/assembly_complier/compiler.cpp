@@ -5,47 +5,65 @@
 #include <algorithm>
 
 void StartComply() {
+	//-1 = Unknown,0 = DS,1 = CS,2 = ES
+	PeanutInt CurrentArea = 0;
+	DS.clear();
+	CS.clear();
+	ES.clear();
+	ConstName.clear();
+	ConstPos.clear();
 	AppendBin("This a peanut file.", ByteCodes);
 	for (auto & AssemblyCode : AssemblyCodes) {
 		std::string command = AssemblyCode.substr(0, AssemblyCode.find(':', 0));
-		if (command == "DS:") {
-			//因为DS是首位，所以啥也不做
+		if (command == "DS")
+		{
+			CurrentArea = 0;
 		}
-		else if (command == "DB") {
-			std::string name = GetParameter(AssemblyCode, 1);
-			std::string value = GetParameter(AssemblyCode, 2);
-			ConstName.push_back(name);
-			ConstPos.push_back(GetPos_DS());
-			AppendBin(value, DS);
-			AppendBin(0x00, DS);
+		else if (command == "CS") {
+			CurrentArea = 1;
 		}
-		else if (command == "PUSH") {
-			std::string arg = GetParameter(AssemblyCode, 1);
-			//#PUSH:AX
-			if (arg == "AX") {
-				AppendBin(PUSH_AX, ByteCodes);
+		else if (command == "ES") {
+			CurrentArea = 2;
+		}
+		else if (CurrentArea == 0) {//DS空间： 
+			if (command == "DB") {
+				std::string name = GetParameter(AssemblyCode, 1);
+				std::string value = GetParameter(AssemblyCode, 2);
+				ConstName.push_back(name);
+				ConstPos.push_back(GetPos_DS());
+				AppendBin(value, DS);
+				AppendBin(0x00, DS);
 			}
-			//#PUSH:BX
-			else if (arg == "BX") {
-				AppendBin(PUSH_BX, ByteCodes);
-			}
-			//PUSH:CX
-			else if (arg == "CX") {
-				AppendBin(PUSH_CX, ByteCodes);
-			}
-			//#PUSH:%ADDR32%	[32bit]
-			//#PUSH:%ADDR64%	[64bit]
-			else {
-				AppendBin(PUSH_ANY, ByteCodes);
-				if (IsNumberHex(arg)) {
-					arg = SetNumberAuto(arg);
-					AppendBinInt(ToNumberFromHex(arg), ByteCodes);
+		}
+		else if (CurrentArea == 1) {//CS空间：
+			if (command == "PUSH") {
+				std::string arg = GetParameter(AssemblyCode, 1);
+				//#PUSH:AX;
+				if (arg == "AX") {
+					AppendBin(PUSH_AX, CS);
 				}
+				//#PUSH:BX;
+				else if (arg == "BX") {
+					AppendBin(PUSH_BX, CS);
+				}
+				//PUSH:CX;
+				else if (arg == "CX") {
+					AppendBin(PUSH_CX, CS);
+				}
+				//#PUSH:%ADDR32%	[32bit]
+				//#PUSH:%ADDR64%	[64bit]
 				else {
-					auto it = std::find(ConstName.begin(), ConstName.end(), arg);
-					if (it != ConstName.end()) {
-						PeanutInt pos = std::distance(ConstName.begin(), it);
-						AppendBinInt(pos, ByteCodes);
+					AppendBin(PUSH_ANY, CS);
+					if (IsNumberHex(arg)) {
+						arg = SetNumberAuto(arg);
+						AppendBinInt(ToNumberFromHex(arg), CS);
+					}
+					else {
+						auto it = std::find(ConstName.begin(), ConstName.end(), arg);
+						if (it != ConstName.end()) {
+							PeanutInt index = std::distance(ConstName.begin(), it);
+							AppendBinInt(ConstPos[index], CS);
+						}
 					}
 				}
 			}

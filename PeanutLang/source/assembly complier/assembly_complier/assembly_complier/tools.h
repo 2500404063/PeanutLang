@@ -102,11 +102,11 @@ inline std::string GetOnlyString(std::string str) {
 // Qualifier: Get the size of DS
 //************************************
 inline PeanutInt GetPos_DS() {
-	if (DS.size() == 0) {
+	if (DS.empty()) {
 		return 0;
 	}
 	else {
-		return DS.size() - 1;
+		return DS.size();
 	}
 }
 //************************************
