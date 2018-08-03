@@ -13,7 +13,7 @@ using PeanutInt = size_t;
 #endif // X64
 
 #pragma region MachineDefiniton
-struct Core
+typedef struct _Core
 {
 	//Í¨ÓÃ¼Ä´æÆ÷
 	PeanutInt AX;
@@ -28,7 +28,7 @@ struct Core
 	PeanutInt CS;
 	PeanutInt DS;
 	PeanutInt ES;
-};
+}Core, *PCore;
 
 #pragma endregion
 
