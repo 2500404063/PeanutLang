@@ -119,11 +119,13 @@
   <ItemGroup>
     <ClInclude Include="compiler.h" />
     <ClInclude Include="definition.h" />
+    <ClInclude Include="output.h" />
     <ClInclude Include="tools.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler.cpp" />
     <ClCompile Include="definition.cpp" />
+    <ClCompile Include="output.cpp" />
     <ClCompile Include="start.cpp" />
     <ClCompile Include="tools.cpp" />
   </ItemGroup>

@@ -11,6 +11,7 @@
 
 #include "definition.h"
 #include "compiler.h"
+#include "output.h"
 #include <fstream>
 #include <thread>
 #include <iostream>
@@ -49,8 +50,9 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		StartComply();
+		OutPut();
 	}
-	std::cin.get();
+	//std::cin.get();
 	//cout << "Address:" << "00" << setiosflags(ios::uppercase) << hex << (int)&temp << endl;
 	return 0;
 }

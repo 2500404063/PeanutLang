@@ -1,7 +1,6 @@
 #include "compiler.h"
 #include "definition.h"
 #include "tools.h"
-
 #include <algorithm>
 
 void StartComply() {
@@ -12,11 +11,14 @@ void StartComply() {
 	ES.clear();
 	ConstName.clear();
 	ConstPos.clear();
-	AppendBin("This a peanut file.", ByteCodes);
 	for (auto & AssemblyCode : AssemblyCodes) {
 		std::string command = AssemblyCode.substr(0, AssemblyCode.find(':', 0));
 		if (command == "REM") {
 			continue;
+		}
+		else if (command == "ORG")
+		{
+			MainName = GetParameter(AssemblyCode, 1);
 		}
 		else if (command == "DS") {
 			CurrentArea = 0;
@@ -48,7 +50,7 @@ void StartComply() {
 				else if (arg == "BX") {
 					AppendBin(PUSH_BX, CS);
 				}
-				//PUSH:CX;
+				//#PUSH:CX;
 				else if (arg == "CX") {
 					AppendBin(PUSH_CX, CS);
 				}
@@ -60,11 +62,25 @@ void StartComply() {
 						AppendBinInt(ToNumberFromHex(arg), CS);
 					}
 					else {
+						PeanutInt pos = GetPos_Const(arg);
+						if (pos != PI_MAX)
+						{
+							AppendBinInt(pos, CS);
+						}
+						else {
+							std::cout << "Can't find the ConstName:" << arg << std::endl;
+							std::cin.get();
+						}
+						/*AppendBinInt(ConstPos[index], CS);
 						auto it = std::find(ConstName.begin(), ConstName.end(), arg);
 						if (it != ConstName.end()) {
 							PeanutInt index = std::distance(ConstName.begin(), it);
 							AppendBinInt(ConstPos[index], CS);
 						}
+						else {
+							std::cout << "Can't find the ConstName:" << arg << std::endl;
+							std::cin.get();
+						}*/
 					}
 				}
 			}
@@ -90,17 +106,57 @@ void StartComply() {
 						AppendBinInt(ToNumberFromHex(arg), CS);
 					}
 					else {
-						auto it = std::find(ConstName.begin(), ConstName.end(), arg);
+						PeanutInt pos = GetPos_Const(arg);
+						if (pos != PI_MAX)
+						{
+							AppendBinInt(pos, CS);
+						}
+						else {
+							std::cout << "Can't find the ConstName:" << arg << std::endl;
+							std::cin.get();
+						}
+						/*auto it = std::find(ConstName.begin(), ConstName.end(), arg);
 						if (it != ConstName.end()) {
 							PeanutInt index = std::distance(ConstName.begin(), it);
 							AppendBinInt(ConstPos[index], CS);
 						}
+						else {
+							std::cout << "Can't find the ConstName:" << arg << std::endl;
+							std::cin.get();
+						}*/
 					}
 				}
 			}
 			else if (command == "NOP") {
 				AppendBin(NOP, CS);
 			}
+			else if (command == "CALL")
+			{
+				std::string name = GetParameter(AssemblyCode, 1);
+				PeanutInt pos = GetPos_FUNC(name);
+				if (pos != PI_MAX)
+				{
+					AppendBin(CALL, CS);
+					AppendBinInt(pos, CS);
+				}
+			}
+			else if (command == "FUNC_BEG")
+			{
+				std::string name = GetParameter(AssemblyCode, 1);
+				FuncName.push_back(name);
+				FuncPos.push_back(GetPos_CS());
+			}
+			else if (command == "RET")
+			{
+				AppendBin(RET, CS);
+			}
+			else if (command == "FUNC_END")
+			{
+				//ÔÝÊ±²»Ìí¼Ó
+			}
+		}
+		else if (CurrentArea == 2) {
+
 		}
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "definition.h"
+
 ////////////////////////////////////////////////////////////////////
 //------------------------------------------------------------------
 // *>EFFECT:定义了一些有用的函数
@@ -36,6 +37,18 @@ inline void AppendBin(std::string text, std::vector<byte> &Place) {
 	{
 		Place.push_back(i);
 	}
+}
+//************************************
+// Method:    AppendBin
+// FullName:  AppendBin
+// Access:    public 
+// Returns:   void
+// Qualifier: Connect two vectors
+// Parameter: std::vector<byte> hexes
+// Parameter: std::vector<byte> & Place
+//************************************
+inline void AppendBin(std::vector<byte> hexes, std::vector<byte> &Place) {
+	Place.insert(Place.cend(), hexes.begin(), hexes.end());
 }
 //************************************
 // Method:    AppendBinInt
@@ -108,6 +121,63 @@ inline PeanutInt GetPos_DS() {
 	else {
 		return DS.size();
 	}
+}
+//************************************
+// Method:    GetPos_CS
+// FullName:  GetPos_CS
+// Access:    public 
+// Returns:   PeanutInt
+// Qualifier: Get the size of CS
+//************************************
+inline PeanutInt GetPos_CS() {
+	if (CS.empty()) {
+		return 0;
+	}
+	else {
+		return CS.size();
+	}
+}
+//************************************
+// Method:    GetPos_ES
+// FullName:  GetPos_ES
+// Access:    public 
+// Returns:   PeanutInt
+// Qualifier: Get the size of ES
+//************************************
+inline PeanutInt GetPos_ES() {
+	if (ES.empty()) {
+		return 0;
+	}
+	else {
+		return ES.size();
+	}
+}
+//************************************
+// Method:    GetPos_FUNC
+// FullName:  GetPos_FUNC
+// Access:    public 
+// Returns:   PeanutInt
+// Qualifier: Get Function Pos
+// Parameter: std::string funcname
+//************************************
+inline PeanutInt GetPos_FUNC(std::string funcname) {
+	for (PeanutInt i = 0; i < FuncName.size(); i++)
+	{
+		if (FuncName[i] == funcname) {
+			return FuncPos[i];
+		}
+	}
+	return PI_MAX;
+}
+
+inline PeanutInt GetPos_Const(std::string const_name) {
+	for (PeanutInt i = 0; i < ConstName.size(); i++)
+	{
+		if (ConstName[i] == const_name) {
+			return ConstPos[i];
+		}
+	}
+	return PI_MAX;
 }
 //************************************
 // Method:    SetNumber32

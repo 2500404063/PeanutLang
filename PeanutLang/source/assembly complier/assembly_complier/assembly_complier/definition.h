@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using byte = unsigned char;
 
@@ -31,9 +32,12 @@ extern std::vector<byte> CS;
 extern std::vector<byte> ES;
 extern std::vector<std::string> ConstName;
 extern std::vector<PeanutInt> ConstPos;
+extern std::vector<std::string> FuncName;
+extern std::vector<PeanutInt> FuncPos;
 extern PeanutInt DS_Deep_Pos;//常量区
 extern PeanutInt CS_Deep_Pos;//可执行代码区
-extern PeanutInt ES_Deep_Pos;//函数储存区
+extern PeanutInt ES_Deep_Pos;//函数附加段
+extern std::string MainName;//主函数的函数名，在最后的时候替换成地址.
 
 //后面注释跟着的是参数,空白表示无参数,参数风格：类型+名称
 #define NUL			0x00//NULL
@@ -45,4 +49,6 @@ extern PeanutInt ES_Deep_Pos;//函数储存区
 #define POP_BX		0x06//NULL
 #define POP_CX		0x07//NULL
 #define POP_ANY		0x08//PeanutInt address
+#define CALL        0x09//PeanutInt address
+#define RET			0x10//NULL
 #define NOP			0x90//NULL
